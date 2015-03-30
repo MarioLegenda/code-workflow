@@ -81,7 +81,7 @@ $compiler
  Job object and returns void. Compile the entire code. 
  ```
  
- ##**NOTE
+ ##**NOTE**
  
  ```
  If you have multiple 'set' methods in an object, 
