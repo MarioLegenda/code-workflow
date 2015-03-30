@@ -121,6 +121,22 @@ $compiler
      var_dump($response);
  ```
  
+ If you wish to get the the return value of a method in the success anonymous function then use this...
+ 
+ ```
+ ->ifMethod('getCompanyName')->succedes()->thenRun(function(){
+       return $context->getObjectStorage()->retreiveUnit($company)->retreive('getCompanyName')->getValue();
+  })
+ ```
+ 
+ You can chain as much objects as you like and the workflow compiler will work.
+ 
+ That is it. I'm not going to make a detailed documentation on this beacuse I don't know if this will be 
+ of any use to anyone. If only ONE developers likes this, I will make a detailed documentation with phpdocumentator
+ and the full documentation on github. I will also thoroughly comment all the code so you can see how it works.
+ 
+ Cheers and good life to everyone.
+ 
  
 
 
