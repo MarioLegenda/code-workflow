@@ -74,7 +74,7 @@ $compiler
     })
     ->compile();
 
-var_dump($compiler->getResponseFor($company, 'getCompanyName'));
+var_dump($compiler->runResponseFor($company, 'getCompanyName'));
 
 
 
