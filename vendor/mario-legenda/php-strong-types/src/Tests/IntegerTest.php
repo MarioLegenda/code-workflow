@@ -3,8 +3,8 @@
 namespace App\ToolsBundle\Tests\StrongType;
 
 
-use App\ToolsBundle\Helpers\StrongType\Float;
-use App\ToolsBundle\Helpers\StrongType\Integer;
+use StrongType\Float;
+use StrongType\Integer;
 
 class IntegerTest extends \PHPUnit_Framework_TestCase
 {

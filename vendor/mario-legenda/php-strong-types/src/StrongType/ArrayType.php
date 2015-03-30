@@ -22,8 +22,7 @@ class ArrayType implements \IteratorAggregate, \Countable
         return new \RecursiveIteratorIterator($this->arrayType);
     }
 
-    public function seek($index) {
-
+    public function seek($index, $depth = null) {
     }
 
     public function count() {
@@ -31,12 +30,11 @@ class ArrayType implements \IteratorAggregate, \Countable
     }
 
     public function isEverything($expectedValue) {
-        $validExpected = array('false', 'true', 'null', 'object', 'string', 'integer', 'float', 'number');
-
-        if(in_array($expectedValue, $validExpected) === false) {
-            throw new CriticalTypeException('ArrayType: ArrayType::isEverything($type) expects the values to be a string with one of these values:
-            false, true, null, object, string, integer, float, number');
+        if(is_array($expectedValue)) {
+            throw new CriticalTypeException('ArrayType::isEverything(): Argument cannot be of type array');
         }
+
+
 
         $rit = new \RecursiveIteratorIterator($this->arrayType);
     }

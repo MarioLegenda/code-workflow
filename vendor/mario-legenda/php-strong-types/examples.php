@@ -3,8 +3,7 @@
 require 'vendor/autoload.php';
 
 use StrongType\Integer;
-
-$integer = new Integer(5);
+use StrongType\ArrayType;
 
 $person = array(
     'name' => 'Mario',
@@ -44,7 +43,7 @@ $numeric = array(
     1256984596321
 );
 
-$rit = new \RecursiveArrayIterator($numeric);
-$it = new \RecursiveIteratorIterator($rit);
+$array = new ArrayType($person);
 
-$limitIt = new \LimitIterator($it, 5, 3);
+$array->isEverything(null);
+

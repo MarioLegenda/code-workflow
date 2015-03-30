@@ -3,8 +3,8 @@
 namespace App\ToolsBundle\Tests\StrongType;
 
 
-use App\ToolsBundle\Helpers\StrongType\CriticalTypeException;
-use App\ToolsBundle\Helpers\StrongType\String;
+use StrongType\Exceptions\CriticalTypeException;
+use StrongType\String;
 
 class StringTest extends \PHPUnit_Framework_TestCase
 {

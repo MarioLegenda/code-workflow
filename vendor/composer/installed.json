@@ -1031,5 +1031,49 @@
         "keywords": [
             "php"
         ]
+    },
+    {
+        "name": "mario-legenda/php-strong-types",
+        "version": "0.0.1",
+        "version_normalized": "0.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/MarioLegenda/php-strong-types.git",
+            "reference": "7f402c60703448bede20b27b8213467ceb753982"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/MarioLegenda/php-strong-types/zipball/7f402c60703448bede20b27b8213467ceb753982",
+            "reference": "7f402c60703448bede20b27b8213467ceb753982",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2015-03-30 10:52:23",
+        "type": "utility",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "StrongType\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mario Škrlec",
+                "email": "whitepostmail@gmail.com",
+                "homepage": "https://github.com/MarioLegenda/php-strong-types",
+                "role": "Developer"
+            }
+        ],
+        "description": "Provides strongly typed object of String, Integer, Float and ArrayType",
+        "homepage": "https://github.com/MarioLegenda",
+        "keywords": [
+            "php"
+        ]
     }
 ]
