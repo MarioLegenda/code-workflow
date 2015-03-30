@@ -10,17 +10,17 @@ Foundation but it made me think. Why not make something similar for Php? Most of
 agree. With this design pattern, there is a lot more code to be written but there are some benefits.
 
 For example, Code Workflow checks for returns types of methods that you want to execute, so when some method does not return the desired type,
-error is thrown. But that could also be an overkill since PHP is not designed to be a strongly types programming language. All thing aside, this 
+error is thrown. But that could also be an overkill since PHP is not designed to be a strongly typed programming language. All things aside, this 
 could be the most pointless project ever created but after I started working on it, I became stuborn and had to make it work. Someone might like it,
 most of you will hate it. That is the way of the samurai :).
 
 Everything will be clear from the examples below, so continue reading.
 
-The example object are in src/Demo directory.
+The example objects are in src/Demo directory.
 
 ####The basic way
 
-In the examples in src/Demo directory, you can find the Company and Person object. Basic way of using these object would be like this...
+In the examples in src/Demo directory, you can find the Company and Person object. Basic way of using these objects would be like this...
  
  ```
  $company = new Company();
@@ -74,7 +74,7 @@ $compiler
  
  ```
  Run the object $company with method 'setCompanyName' that doesn't return anything. 
- Then, run object john with methods 'setName', 'setLastname' and 'setAge' with the 
+ Then, run object #john with methods 'setName', 'setLastname' and 'setAge' with the 
  desired parameters and void method return. Then, run the object $company 
  again with method 'hireEmployee' with $john object as a parameter.  
  Then, run object $john again with method 'foundJob' that accepts  
