@@ -73,10 +73,52 @@ $compiler
  This is the same code executed but with human readable code. This could be read as follows:
  
  ```
- Run the object $company with method 'setCompanyName' that doesn't return anything. Then, run object john with methods 'setName', 
- 'setLastname' and 'setAge' with the desired parameters and void method return. Then, run the object $company again with method
- 'hireEmployee' with $john object as a parameter. Then, run object $john again with method 'foundJob' that accepts Job object and returns
- void. Compile the entire code.
+ Run the object $company with method 'setCompanyName' that doesn't return anything. 
+ Then, run object john with methods 'setName', 'setLastname' and 'setAge' with the 
+ desired parameters and void method return. Then, run the object $company 
+ again with method 'hireEmployee' with $john object as a parameter.  
+ Then, run object $john again with method 'foundJob' that accepts  
+ Job object and returns void. Compile the entire code. 
+ ```
+ 
+ ##**NOTE
+ 
+ ```
+ If you have multiple 'set' methods in an object, 
+ you can execute the above code like this...
+ 
+ ->runObject($john)
+     ->withMethods(array(
+        'setName' => new String('John'),
+        'setLastname' => new String('Doe'),
+        'setAge' => new Integer(28)
+     ))
+ 
+ Compiler::withMethods() here accepts an array 
+ with the method name as key and method parameters as value
+ ```
+ 
+ What happens when you wish to view the returned value of a method? That is also possible...
+ 
+ ```
+ $compiler
+     ->runObject($company)
+     ->withMethods(
+         $compiler->method()->name('setCompanyName')->withParameters(new String('Shady Kaymans Company'))->void()->save(),
+         $compiler->method()->name('getCompanyName')->string()->save()
+     )
+     ->ifMethod('getCompanyName')->fails()->thenRun(function() {
+        return 'getCompanyName failed to return a string';
+     })
+     ->ifMethod('getCompanyName')->succedes()->thenRun(function(){
+        return 'success';
+     })
+     ->compile()
+     
+     $response = $compiler->runResponseFor($company, 'getCompanyName');
+     
+     // if successfull, prints 'success', if not then prints 'getCompanyName failed to return a string'
+     var_dump($response);
  ```
  
  
