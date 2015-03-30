@@ -6,6 +6,7 @@ namespace CodeWorkflow\Storage;
 use CodeWorkflow\MethodTypes\MethodType;
 use CodeWorkflow\Storage\Contracts\StorageUnitInterface;
 use CodeWorkflow\Storage\Exceptions\StorageException;
+use StrongType\String;
 
 class ObjectStorage
 {
@@ -25,13 +26,11 @@ class ObjectStorage
         $this->storage->attach($unit, $storageUnit);
     }
 
-    public function rejuvinateUnit($unit, StorageUnitInterface $storageUnit) {
+    public function rejuvinateUnit(String $methodName, $unit, $objectToSave) {
         $this->isObject($unit);
 
-        if( ! $this->storage->offsetExists($unit)) {
-            $this->storeUnit($unit, $storageUnit);
-            return $this;
-        }
+        $storageUnit = $this->storage->offsetGet($unit);
+        $storageUnit->overwrite($methodName->toString(), $objectToSave);
 
         $this->storage->detach($unit);
         $this->storage->attach($unit, $storageUnit);

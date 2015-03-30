@@ -418,8 +418,4 @@ return array(
     'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => $vendorDir . '/sebastian/recursion-context/src/InvalidArgumentException.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/Text/Template.php',
-    'Company' => $baseDir . '/Company.php',
-    'Job' => $baseDir . '/Job.php',
-    'Person' => $baseDir . '/Person.php',
-    'Unique' => $baseDir . '/Unique.php'
 );

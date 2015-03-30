@@ -1,5 +1,7 @@
 <?php
 
+namespace Demo;
+
 class Unique
 {
     private static $seed = 654;

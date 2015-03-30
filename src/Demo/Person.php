@@ -1,5 +1,7 @@
 <?php
 
+namespace Demo;
+
 use StrongType\String;
 use StrongType\Integer;
 

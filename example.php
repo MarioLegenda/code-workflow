@@ -9,6 +9,11 @@ use StrongType\Float;
 use CodeWorkflow\Compiler;
 use CodeWorkflow\Arguments\ArgumentFactory;
 
+use Demo\Company;
+use Demo\Job;
+use Demo\Person;
+use Demo\Unique;
+
 
 $company = new Company();
 $mario = new Person(new Unique());
@@ -19,43 +24,38 @@ $mario = new Person(new Unique());
 $martina = new Person(new Unique());
 /*$martina->setName(new String('Martina'))
         ->setLastname(new String('Prezime'))
-        ->setAge(new Integer(28));*/
+        ->setAge(new Integer(28));
 
-//$company->hireEmployee($martina);
-//$company->hireEmployee($mario);
+$company->hireEmployee($martina);
+$company->hireEmployee($mario);
 
-//$martina->foundJob(new Job($company));
-//$mario->foundJob(new Job($company));
+$martina->foundJob(new Job($company));
+$mario->foundJob(new Job($company));
 
-//$company->fireEmployee($martina);
-
-/*
- * Wish list:
- *
- *   - Multiple parameters as arguments in methods
- *   - Saving return values from objects and using them in other methods on client request
- *   - Working with runtime objects in a flexible manner
- *   - Better filtering algorithm for method execution with return values from other methods always available
- *   - A flexible design pattern that will have no problem with scaling to a larger api
- * */
+$company->fireEmployee($martina);*/
 
 $compiler = new Compiler();
-$compiler->runObject($company)
+$compiler
+    ->runObject($company)
     ->withMethods(
-        $compiler->method()->name('setCompanyName')->withParameters(new String('Dealings Offshore'))->self()->save()
+        $compiler->method()->name('setCompanyName')->withParameters(new String('Dealings Offshore'))->self()->save(),
+        $compiler->method()->name('getCompanyName')->string()->save()
     )
+    ->ifMethod('getCompanyName')->succedes()->thenRun(function($context) use ($company) {
+        return $context->getObjectStorage()->retreiveUnit($company)->retreive('getCompanyName')->getValue();
+    })
     ->then()
     ->runObject($mario)
     ->withMethods(array(
-        'setName' => new String('Mario'),
-        'setLastname' => new String('Škrlec'),
+        'setName' => new String('John'),
+        'setLastname' => new String('Doe'),
         'setAge' => new Integer(28)
     ))
     ->then()
     ->runObject($martina)
     ->withMethods(array(
-        'setName' => new String('Martina'),
-        'setLastname' => new String('Strugačevac'),
+        'setName' => new String('Joanna'),
+        'setLastname' => new String('Doe'),
         'setAge' => new Integer(25)
     ))
     ->then()
@@ -67,14 +67,14 @@ $compiler->runObject($company)
         $compiler->method()->name('asArray')->arr()->save()
     )
     ->ifMethod('asArray')->fails()->thenRun(function($context) {
-        return 'kurac';
+        return 'failed';
     })
     ->ifMethod('asArray')->succedes()->thenRun(function($context) {
-        return 'uspjelo';
+        return 'succeded';
     })
     ->compile();
 
-var_dump($compiler->getResponseFor($company, 'asArray'));
+var_dump($compiler->getResponseFor($company, 'getCompanyName'));
 
 
 

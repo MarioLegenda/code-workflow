@@ -6,9 +6,13 @@ namespace Tests;
 use CodeWorkflow\Response\ResponseFactory;
 use CodeWorkflow\Response\ResponsePool;
 use CodeWorkflow\Storage\ObjectStorage;
-use CodeWorkflow\Storage\ResponseStorage;
 use CodeWorkflow\Storage\StorageUnit;
+use CodeWorkflow\MethodDefinition;
+use CodeWorkflow\Compiler;
+use CodeWorkflow\MethodTypes\MethodFactory\MethodFactory;
 use StrongType\String;
+
+use Demo\Company;
 
 class ResponseTest  extends \PHPUnit_Framework_TestCase
 {
@@ -50,7 +54,7 @@ class ResponseTest  extends \PHPUnit_Framework_TestCase
     }
 
     public function testResponseStorage() {
-        $company = new \Company();
+        $company = new Company();
         $responsePool = new ResponsePool();
 
         $responsePool->setActiveMethod(new String('getCompanyName'));
@@ -81,5 +85,32 @@ class ResponseTest  extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($storedResponsePool->hasFailResponse(new String('getCompanyName')),
             'ResponseTest::testResponseStorage(): Failed assertinig that ResponsePool::hasFaileMethod() does not have a failed method');
+    }
+
+    public function testAdvancedResponseStorage() {
+        $responseStorage = new ObjectStorage(new \SplObjectStorage());
+        $responsePool = new ResponsePool();
+        $workingObject = new Company();
+        $workingObject->setCompanyName(new String('Dealings Offshore'));
+
+        $definition = new MethodDefinition(new Compiler());
+        $definition->name('getCompanyName')->withParameters(array())->void();
+
+        $methodFactory = new MethodFactory($definition);
+        $method = $methodFactory->createMethod();
+
+        $responsePool->setActiveMethod(new String($method->getMethodName()));
+        $responsePool->setActiveStatus(new String('fail'));
+        ResponseFactory::prepare($responsePool->getActiveStatus())->createResponse($responsePool, function() {
+            var_dump('getCompanyName fail');
+        });
+
+
+        $responsePool->clear();
+
+
+
+
+
     }
 } 

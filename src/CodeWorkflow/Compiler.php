@@ -84,9 +84,18 @@ class Compiler
                     $failed = $method->execute($this->workingObject)->checkReturned();
 
                     if($method instanceof ReturnsValueInterface) {
-                        $storageUnit = new StorageUnit();
-                        $storageUnit->store($method->getMethodName(), $method->getReturned());
-                        $this->objectStorage->storeUnit($this->workingObject, $storageUnit);
+                        if($this->objectStorage->unitExists($this->workingObject)) {
+                            $storageUnit = $this->objectStorage->retreiveUnit($this->workingObject);
+                            $storageUnit->store($method->getMethodName(), $method->getReturned());
+
+                            $this->objectStorage->storeUnit($this->workingObject, $storageUnit);
+                            $this->responsePool->clear();
+                        }
+                        else {
+                            $storageUnit = new StorageUnit();
+                            $storageUnit->store($method->getMethodName(), $method->getReturned());
+                            $this->objectStorage->storeUnit($this->workingObject, $storageUnit);
+                        }
                     }
 
                     if($failed === false) {
@@ -97,11 +106,6 @@ class Compiler
                     if($this->responsePool->hasFailResponse(new String($method->getMethodName()))) {
                         $this->responsePool->eraseFailResponse(new String($method->getMethodName()));
                     }
-
-                    $storageUnit = new StorageUnit();
-                    $storageUnit->store($method->getMethodName(), $this->responsePool);
-
-                    $this->responseStorage->storeUnit($this->workingObject, $storageUnit);
                 }
             }
 
@@ -126,9 +130,20 @@ class Compiler
                     $failed = $method->execute($this->workingObject)->checkReturned();
 
                     if($method instanceof ReturnsValueInterface) {
-                        $storageUnit = new StorageUnit();
-                        $storageUnit->store($method->getMethodName(), $method->getReturned());
-                        $this->objectStorage->storeUnit($this->workingObject, $storageUnit);
+                        if($this->objectStorage->unitExists($this->workingObject)) {
+                            $storageUnit = $this->objectStorage->retreiveUnit($this->workingObject);
+                            $storageUnit->store($method->getMethodName(), $method->getReturned());
+
+                            $this->objectStorage->storeUnit($this->workingObject, $storageUnit);
+                            $this->responsePool->clear();
+
+                            $this->responsePool->clear();
+                        }
+                        else {
+                            $storageUnit = new StorageUnit();
+                            $storageUnit->store($method->getMethodName(), $method->getReturned());
+                            $this->objectStorage->storeUnit($this->workingObject, $storageUnit);
+                        }
                     }
 
                     if($failed === false) {
@@ -139,11 +154,6 @@ class Compiler
                     if($this->responsePool->hasFailResponse(new String($method->getMethodName()))) {
                         $this->responsePool->eraseFailResponse(new String($method->getMethodName()));
                     }
-
-                    $storageUnit = new StorageUnit();
-                    $storageUnit->store($method->getMethodName(), $this->responsePool);
-
-                    $this->responseStorage->storeUnit($this->workingObject, $storageUnit);
                 }
             }
 
@@ -168,6 +178,10 @@ class Compiler
     }
 
     public function ifMethod($methodName) {
+        if( ! method_exists($this->workingObject, $methodName)) {
+            throw new CriticalErrorException('Compiler::ifMethod(): ' . $methodName . ' not found on object ' . get_class($this->workingObject));
+        }
+
         $this->responsePool->setActiveMethod(new String($methodName));
         return $this;
     }
@@ -184,10 +198,27 @@ class Compiler
 
     public function thenRun(\Closure $closure) {
         ResponseFactory::prepare($this->responsePool->getActiveStatus())->createResponse($this->responsePool, $closure);
+
+        if($this->responseStorage->unitExists($this->workingObject)) {
+            $this->responseStorage->rejuvinateUnit(
+                $this->responsePool->getActiveMethod(),
+                $this->workingObject,
+                $this->responsePool
+            );
+
+            $this->responsePool->clear();
+            return $this;
+        }
+
+        $storageUnit = new StorageUnit();
+        $storageUnit->store($this->responsePool->getActiveMethod()->toString(), $this->responsePool);
+        $this->responseStorage->storeUnit($this->workingObject, $storageUnit);
+
+        $this->responsePool->clear();
         return $this;
     }
 
-    public function getResponseFor($workingObject, $methodName) {
+    public function runResponseFor($workingObject, $methodName) {
         if( ! $this->responseStorage->unitExists($workingObject)) {
             return null;
         }

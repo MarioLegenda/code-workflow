@@ -12,9 +12,13 @@ class StorageUnit implements StorageUnitInterface
 
     public function store($key, $value) {
         if(array_key_exists($key, $this->storage)) {
-            throw new StorageException('StorageUnit: StorageUnit::store($key, $value); $key already exists in storage');
+            throw new StorageException('StorageUnit: StorageUnit::store($key, $value); ' . $key . ' already exists in storage');
         }
 
+        $this->storage[$key] = $value;
+    }
+
+    public function overwrite($key, $value) {
         $this->storage[$key] = $value;
     }
 

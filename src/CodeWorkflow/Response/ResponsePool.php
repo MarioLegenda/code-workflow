@@ -37,6 +37,14 @@ class ResponsePool
         return $this->activeStatus;
     }
 
+    public function getActiveMethod() {
+        if($this->activeStatus === null) {
+            throw new CriticalErrorException('ResponsePool: Active method cannot be fetched if it is not set before');
+        }
+
+        return $this->activeMethod;
+    }
+
 
 
 
@@ -104,10 +112,7 @@ class ResponsePool
         $this->successResponses = $tempResponses;
     }
 
-    public function emptyPool() {
-        $this->successResponses = array();
-        $this->failResponses = array();
-
+    public function clear() {
         $this->activeMethod = null;
         $this->activeStatus = null;
     }

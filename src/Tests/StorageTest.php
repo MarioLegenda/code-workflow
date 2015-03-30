@@ -10,6 +10,8 @@ use StrongType\String;
 use CodeWorkflow\MethodDefinition;
 use CodeWorkflow\Compiler;
 
+use Demo\Company;
+
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     public function testStorageUnit() {
@@ -26,7 +28,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testObjectStorage() {
-        $company = new \Company();
+        $company = new Company();
         $company->setCompanyName(new String('Dealings Offshore'));
         $definition = new MethodDefinition(new Compiler());
         $definition->name('getCompanyName')->string();
