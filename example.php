@@ -16,23 +16,23 @@ use Demo\Unique;
 
 
 $company = new Company();
-$mario = new Person(new Unique());
-/*$mario->setName(new String('Mario'))
-      ->setLastname(new String('Škrlec'))
-      ->setAge(new Integer(28));*/
+$john = new Person(new Unique());
+/*$john->setName(new String('John'));
+$john->setLastname(new String('Doe'));
+$john->setAge(new Integer(28));*/
 
-$martina = new Person(new Unique());
-/*$martina->setName(new String('Martina'))
-        ->setLastname(new String('Prezime'))
-        ->setAge(new Integer(28));
+$johanna = new Person(new Unique());
+/*$johanna->setName(new String('Johanna'));
+$johanna->setLastname(new String('Doe'));
+$johanna->setAge(new Integer(28));*/
 
-$company->hireEmployee($martina);
-$company->hireEmployee($mario);
+/*$company->hireEmployee($johanna);
+$company->hireEmployee($john);
 
-$martina->foundJob(new Job($company));
-$mario->foundJob(new Job($company));
+$johanna->foundJob(new Job($company));
+$john->foundJob(new Job($company));
 
-$company->fireEmployee($martina);*/
+$company->fireEmployee($johanna);*/
 
 $compiler = new Compiler();
 $compiler
@@ -45,14 +45,14 @@ $compiler
         return $context->getObjectStorage()->retreiveUnit($company)->retreive('getCompanyName')->getValue();
     })
     ->then()
-    ->runObject($mario)
+    ->runObject($john)
     ->withMethods(array(
         'setName' => new String('John'),
         'setLastname' => new String('Doe'),
         'setAge' => new Integer(28)
     ))
     ->then()
-    ->runObject($martina)
+    ->runObject($johanna)
     ->withMethods(array(
         'setName' => new String('Joanna'),
         'setLastname' => new String('Doe'),
@@ -61,9 +61,9 @@ $compiler
     ->then()
     ->runObject($company)
     ->withMethods(
-        $compiler->method()->name('hireEmployee')->withParameters($mario)->void()->save(),
-        $compiler->method()->name('hireEmployee')->withParameters($martina)->void()->save(),
-        $compiler->method()->name('lookupEmployee')->withParameters($mario)->self()->save(),
+        $compiler->method()->name('hireEmployee')->withParameters($john)->void()->save(),
+        $compiler->method()->name('hireEmployee')->withParameters($johanna)->void()->save(),
+        $compiler->method()->name('lookupEmployee')->withParameters($john)->self()->save(),
         $compiler->method()->name('asArray')->arr()->save()
     )
     ->ifMethod('asArray')->fails()->thenRun(function($context) {
