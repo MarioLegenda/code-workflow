@@ -35,7 +35,30 @@ $john->foundJob(new Job($company));
 $company->fireEmployee($johanna);*/
 
 $compiler = new Compiler();
+
 $compiler
+    ->runObject($company)
+    ->withMethods(
+        $compiler->method()->name('setCompanyName')->withParameters(new String('Shady Kaymans Company'))->void()->save()
+    )
+    ->runObject($john)
+    ->withMethods(
+        $compiler->method()->name('setName')->withParameters(new String('John'))->void()->save(),
+        $compiler->method()->name('setLastname')->withParameters(new String('Doe'))->void()->save(),
+        $compiler->method()->name('setAge')->withParameters(new Integer(28))->void()->save()
+    )
+    ->then()
+    ->runObject($company)
+    ->withMethods(
+        $compiler->method()->name('hireEmployee')->withParameters($john)->void()->save()
+    )
+    ->then()
+    ->runObject($john)
+    ->withMethods(
+        $compiler->method()->name('foundJob')->withParameters(new Job($company))->void()->save()
+    )
+    ->compile();
+/*$compiler
     ->runObject($company)
     ->withMethods(
         $compiler->method()->name('setCompanyName')->withParameters(new String('Dealings Offshore'))->self()->save(),
@@ -72,9 +95,7 @@ $compiler
     ->ifMethod('asArray')->succedes()->thenRun(function($context) {
         return 'succeded';
     })
-    ->compile();
-
-var_dump($compiler->runResponseFor($company, 'getCompanyName'));
+    ->compile();*/
 
 
 
