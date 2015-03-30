@@ -20,6 +20,6 @@
         "mario-legenda/php-strong-types": "0.0.1"
     },
     "autoload": {
-        "psr-0": {"ControlFlowCompiler\\": "src/"}
+        "psr-0": {"CodeWorkflow\\": "src/"}
     }
 }
